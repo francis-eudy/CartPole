@@ -13,34 +13,6 @@ tf.compat.v1.disable_eager_execution()
 # print(obs)
 # env.render()
 
-# Number of Possible actions in the env
-# print(env.action_space)
-
-# action = 1  # Go Right
-# obs, reward, done, info = env.step(action)
-# print(obs)  # New observation
-# print(reward)  # reward of 1 for staying up right
-# print(done)  # True when the session is over
-# print(info)  # Extra Debug Info on the Env
-
-# def basic_policy(obs):
-#     angle = obs[2]
-#     return 0 if angle < 0 else 1
-#
-# totals = []
-# for episode in range(500):
-#     episode_rewards = 0
-#     obs = env.reset()
-#     for step in range(1000):  # 1000 steps max, we don't want to run forever
-#         # env.render()
-#         action = basic_policy(obs)
-#         obs, reward, done, info = env.step(action)
-#         episode_rewards += reward
-#         if done:
-#             break
-#     totals.append(episode_rewards)
-#
-# print(np.mean(totals), np.std(totals), np.min(totals), np.max(totals))
 env = gym.make("CartPole-v0")
 obs = env.reset()
 
@@ -65,12 +37,6 @@ X = tf.placeholder(tf.float32, shape=[None, n_inputs])
 hidden = tf.layers.dense(X, n_hidden, activation=tf.nn.elu, kernel_initializer='VarianceScaling')
 logits = tf.layers.dense(hidden, n_outputs, kernel_initializer='VarianceScaling')
 outputs = tf.nn.sigmoid(logits)
-# New
-# input_layer = tf.keras.layers.InputLayer(input_shape=(n_inputs,))
-# hidden_layer = tf.keras.layers.Dense(input_layer, n_hidden, activation=tf.nn.elu, kernel_initializer="VarianceScaling")
-# logits_layer = tf.keras.layers.Dense(hidden_layer, n_outputs, kernel_initializer="VarianceScaling")
-# output_layer = tf.keras.layers.Dense(1, activation='sigmoid')
-
 
 # Select a random action based on the estimated probabilities
 p_left_and_right = tf.concat(axis=1, values=[outputs, 1 - outputs])
